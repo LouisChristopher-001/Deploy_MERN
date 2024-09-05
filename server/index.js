@@ -4,18 +4,13 @@ const cors = require('cors')
 const RegisterModel = require('./models/Register')
 
 const app = express()
-const allowedOrigins = ['https://deploy-mern-fe.vercel.app'];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+app.use(cors(
+    {
+        origin: ["https://deploy-mern-frontend.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
     }
-  },
-  credentials: true, // Allow cookies
-}));
+));
 
 app.use(express.json())
 
