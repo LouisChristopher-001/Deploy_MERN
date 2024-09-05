@@ -25,19 +25,21 @@ mongoose.connect('mongodb+srv://louischristopher784:louis35007@cluster0.2qcrkdo.
 app.get("/", (req, res) => {
     res.json("Hello");
 })
-app.post('/register', (req, res) => {
-    const {name, email, password} = req.body;
-    RegisterModel.findOne({email: email})
-    .then(user => {
-        if(user) {
-            res.json("Already have an account")
-        } else {
-            RegisterModel.create({name: name, email: email, password: password})
-            .then(result => res.json(result))
-            .catch(err => res.json(err))
-        }
-    }).catch(err => res.json(err))
-})
+app.post('/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const user = await RegisterModel.findOne({ email: email });
+    if (user) {
+      return res.json("Already have an account");
+    } else {
+      const newUser = await RegisterModel.create({ name, email, password });
+      return res.json(newUser);
+    }
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 app.listen(3001, () => {
