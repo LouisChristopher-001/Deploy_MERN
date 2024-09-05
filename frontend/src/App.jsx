@@ -10,7 +10,7 @@ function App() {
 axios.defaults.withCredentials = true;
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('employee-management-tt.vercel.app/register', {name, email, password})
+    axios.post('https://employee-management-tt.vercel.app/register', {name, email, password})
     .then(result => console.log(result))
     .catch(err => console.log(err))
   }
