@@ -4,13 +4,19 @@ const cors = require('cors')
 const RegisterModel = require('./models/Register')
 
 const app = express()
-app.use(cors(
-    {
-        origin: "https://deploy-mern-fe.vercel.app",
-        methods: ["POST", "GET"],
-        credentials: true
+const allowedOrigins = ['https://deploy-mern-fe.vercel.app'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-));
+  },
+  credentials: true, // Allow cookies
+}));
+
 app.use(express.json())
 
 mongoose.connect('mongodb+srv://louischristopher784:louis35007@cluster0.2qcrkdo.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0');
